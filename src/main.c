@@ -6,7 +6,7 @@
 /*   By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/03 18:04:01 by kbensado          #+#    #+#             */
-/*   Updated: 2018/06/04 23:21:15 by kbensado         ###   ########.fr       */
+/*   Updated: 2018/06/05 01:12:44 by kbensado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int					main(int ac, char **av)
 	w.av = ++av;
 	if (ac == 1)
 		return (ft_usage(USAGE));
-	while ((w.ret = wrap_state(&w)) > 0)
-		;
+	w.ret = wrap_state(&w);
 	return (w.ret);
 }

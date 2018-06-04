@@ -6,7 +6,7 @@
 /*   By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/03 20:39:21 by kbensado          #+#    #+#             */
-/*   Updated: 2018/06/04 23:24:00 by kbensado         ###   ########.fr       */
+/*   Updated: 2018/06/05 01:07:55 by kbensado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,18 @@ int			hash_md5(t_ssl_wrap *w, t_ssl_file *f)
 }
 
 int			hash_sha256(t_ssl_wrap *w, t_ssl_file *f)
+{
+	if (f == NULL)
+		return (-1);
+	while (*w->av != NULL)
+	{
+		WS(*w->av);
+		w->av++;
+	}
+	return (0);
+}
+
+int			hash_sha512(t_ssl_wrap *w, t_ssl_file *f)
 {
 	if (f == NULL)
 		return (-1);

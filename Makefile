@@ -6,7 +6,7 @@
 #    By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/21 02:48:50 by kbensado          #+#    #+#              #
-#    Updated: 2018/06/04 22:39:41 by kbensado         ###   ########.fr        #
+#    Updated: 2018/06/05 01:01:22 by kbensado         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ OBJ_NAME_N =	$(SRC_NAME_N:.c=.o)
 
 LIBFT_NAME =	libft.a
 
-INC_NAME_N =	ft_ssl.h
+INC_NAME_N =	ft_ssl.h md5.h
 
 SRC_N =			$(addprefix $(SRC_PATH_N),$(SRC_NAME_N))
 

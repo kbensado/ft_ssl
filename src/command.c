@@ -6,7 +6,7 @@
 /*   By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/03 18:26:04 by kbensado          #+#    #+#             */
-/*   Updated: 2018/06/04 23:24:05 by kbensado         ###   ########.fr       */
+/*   Updated: 2018/06/05 01:13:16 by kbensado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static char *g_flag[5] = {
 static char	*g_target[5] = {
 	"md5",
 	"sha256",
+	"sha512",
 	"des",
 	"whirlpool",
 	0
