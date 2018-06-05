@@ -6,7 +6,7 @@
 /*   By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/03 18:04:07 by kbensado          #+#    #+#             */
-/*   Updated: 2018/06/05 01:08:02 by kbensado         ###   ########.fr       */
+/*   Updated: 2018/06/05 03:41:43 by kbensado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int				wrap_state(t_ssl_wrap *w);
 ** command.c
 */
 
-bool			get_stdin(t_ssl_wrap *w);
+char			*get_stdin(t_ssl_wrap *w);
 void			get_flag(t_ssl_wrap *w);
 int				cmd_wrapper(t_ssl_wrap *w);
 int				is_cmd(t_ssl_wrap *w);

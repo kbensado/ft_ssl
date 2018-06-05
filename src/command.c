@@ -6,7 +6,7 @@
 /*   By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/03 18:26:04 by kbensado          #+#    #+#             */
-/*   Updated: 2018/06/05 02:19:22 by kbensado         ###   ########.fr       */
+/*   Updated: 2018/06/05 05:14:21 by kbensado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,35 +29,38 @@ static char	*g_target[6] = {
 	0
 };
 
-static int (*g_func_ptr[4]) (t_ssl_wrap *w, t_ssl_file *f) = {
+static int (*g_func_ptr[5]) (t_ssl_wrap *w, t_ssl_file *f) = {
 	&hash_md5,
 	&hash_sha256,
+	&hash_sha512,
 	&hash_des,
 	&hash_whirlpool,
 };
 
-bool			get_stdin(t_ssl_wrap *w)
+char			*get_stdin(t_ssl_wrap *w)
 {
 	char		buffer[BUFF_SIZE + 1];
+	char		*res;
 	ssize_t		n;
 
 	n = 0;
-	if (STRING_M)
+	res = NULL;
+	if (STRING_M && *w->av == NULL)
 	{
 		WS("ft_ssl :Error: '-s' requiered one argument.");
-		return (false);
+		return (NULL);
 	}
 	while ((n = read(0, buffer, BUFF_SIZE)) > 0)
 	{
 		buffer[n] = 0;
-		if (w->file == NULL)
-			w->file = ft_strdup(buffer);
+		if (res == NULL)
+			res = ft_strdup(buffer);
 		else
-			w->file = ft_strjoin_fs1(w->file, buffer);
+			res = ft_strjoin_fs1(res, buffer);
 		ft_bzero(&buffer, BUFF_SIZE + 1);
 	}
-	ft_printf("out of get_stdin = '%s'\n", w->file);
-	return (true);
+	ft_printf("out of get_stdin = '%s'\n", res);
+	return (res);
 }
 
 /*
@@ -120,11 +123,8 @@ int				cmd_wrapper(t_ssl_wrap *w)
 		return (-1);
 	w->hash = ft_strdup(g_target[t]);
 	get_flag(w);
-	if (*w->av == NULL)
-		if (get_stdin(w) == false)
-			return (-1);
-	if (STRING_M)
-		g_func_ptr[t](w, file_wrap(w, &f));
+	if (PRINT_M)
+		g_func_ptr[t](w, file_wrap(w, &f));	
 	while (*w->av != NULL)
 	{
 		g_func_ptr[t](w, file_wrap(w, &f));

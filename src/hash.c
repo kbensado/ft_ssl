@@ -6,7 +6,7 @@
 /*   By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/03 20:39:21 by kbensado          #+#    #+#             */
-/*   Updated: 2018/06/05 01:07:55 by kbensado         ###   ########.fr       */
+/*   Updated: 2018/06/05 05:13:33 by kbensado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ int			hash_md5(t_ssl_wrap *w, t_ssl_file *f)
 {
 	if (f == NULL)
 		return (-1);
-	ft_printf("len = %d for file = \n'%s'\n", f->len, f->file);
+	ft_printf("'%s' | '%d' to threat\n", f->file, f->len);
 	while (*w->av != NULL)
 	{
-		WS(*w->av);
-		w->av++;
+		file_wrap(w, f);
+		ft_printf("'%s' | '%d' to threat\n", f->file, f->len);
 	}
-	return (0);
+	return (1);
 }
 
 int			hash_sha256(t_ssl_wrap *w, t_ssl_file *f)
@@ -34,7 +34,7 @@ int			hash_sha256(t_ssl_wrap *w, t_ssl_file *f)
 		WS(*w->av);
 		w->av++;
 	}
-	return (0);
+	return (1);
 }
 
 int			hash_sha512(t_ssl_wrap *w, t_ssl_file *f)
@@ -46,7 +46,7 @@ int			hash_sha512(t_ssl_wrap *w, t_ssl_file *f)
 		WS(*w->av);
 		w->av++;
 	}
-	return (0);
+	return (1);
 }
 
 int			hash_des(t_ssl_wrap *w, t_ssl_file *f)
@@ -58,7 +58,7 @@ int			hash_des(t_ssl_wrap *w, t_ssl_file *f)
 		WS(*w->av);
 		w->av++;
 	}
-	return (0);
+	return (1);
 }
 
 int			hash_whirlpool(t_ssl_wrap *w, t_ssl_file *f)
