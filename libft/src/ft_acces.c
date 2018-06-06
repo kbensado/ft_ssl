@@ -18,7 +18,7 @@ int	acces_file(const char *path, int type, int permission)
 
 	if (stat(path, &sb) < 0)
 		return (-1);
-	if ((sb.st_mode & S_IFMT) != type)
+	if ((sb.st_mode & S_IFMT) != (unsigned int)type)
 		return (-1);
 	if ((sb.st_mode & permission) == 0)
 		return (-1);

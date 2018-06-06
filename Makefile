@@ -12,7 +12,7 @@
 
 CC =			gcc
 
-CFLAG =			-Weverything -g # -Wall -Wextra -Werror -g
+CFLAG =			-Wall -Wextra -Werror -g #-Weverything -g 
 
 FSANITIZE = 	-fsanitize=address
 

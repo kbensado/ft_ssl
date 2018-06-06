@@ -18,8 +18,7 @@ t_ssl_file		*file_wrap(t_ssl_wrap *w, t_ssl_file *f)
 
 	if (PRINT_M)
 	{
-		if ((f->file = get_stdin(w)) == NULL)
-			;
+		f->file = get_stdin(w);
 		f->len = (long long)ft_strlen(f->file);
 		PRINT_M = false;
 		return (f);

@@ -22,6 +22,7 @@ int			hash_md5(t_ssl_wrap *w, t_ssl_file *f)
 		file_wrap(w, f);
 		ft_printf("'%s' | '%d' to threat\n", f->file, f->len);
 	}
+	MEMDEL(f->file);
 	return (1);
 }
 
