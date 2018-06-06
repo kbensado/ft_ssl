@@ -6,7 +6,7 @@
 /*   By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/03 20:39:21 by kbensado          #+#    #+#             */
-/*   Updated: 2018/06/05 05:13:33 by kbensado         ###   ########.fr       */
+/*   Updated: 2018/06/06 16:48:59 by kbensado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int			hash_md5(t_ssl_wrap *w, t_ssl_file *f)
 	if (f == NULL)
 		return (-1);
 	ft_printf("'%s' | '%d' to threat\n", f->file, f->len);
+	md5_routine(w, f);
 	while (*w->av != NULL)
 	{
 		file_wrap(w, f);

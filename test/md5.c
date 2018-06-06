@@ -230,7 +230,7 @@ int main(int ac, char **av)
 {  
    char hash[16];
 
-        char *in1 = av[1];
+        char *in1 = "hello\n";
         printf("%s\n",in1);
         // char *in2 =av[2]; 
         // char *in3_1 = av[3];
