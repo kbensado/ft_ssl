@@ -43,7 +43,7 @@ typedef struct {
 
 void md5_transform(MD5_CTX *ctx, uchar data[]) 
 {  
-   uint a,b,c,d,m[16],i,j; 
+   uint a,b,c,d,m[16],i,j;
    
    // MD5 specifies big endian byte order, but this implementation assumes a little 
    // endian byte order CPU. Reverse all the bytes upon input, and re-reverse them 
@@ -207,7 +207,7 @@ void md5_final(MD5_CTX *ctx, uchar hash[])
       hash[i+8]  = (ctx->state[2] >> (i*8)) & 0x000000ff; 
       hash[i+12] = (ctx->state[3] >> (i*8)) & 0x000000ff; 
    }  
-}   
+}  
 
 #include <stdio.h> 
 

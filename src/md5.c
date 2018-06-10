@@ -6,7 +6,7 @@
 /*   By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 16:49:20 by kbensado          #+#    #+#             */
-/*   Updated: 2018/06/06 18:51:09 by kbensado         ###   ########.fr       */
+/*   Updated: 2018/06/10 17:19:27 by kbensado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void				third_wash(t_ssl_md5 *e)
 	HH(TB, TC, TD, TA, e->b_endian[2], 23,0xc4ac5665);
 }
 
-void				finTAl_wTAsh(t_ssl_md5 *e)
+void				final_wash(t_ssl_md5 *e)
 {
 	II(TA, TB, TC, TD, e->b_endian[0], 6,0xf4292244); 
 	II(TD, TA, TB, TC, e->b_endian[7], 10,0x432aff97); 
@@ -107,7 +107,6 @@ void				init_washing(t_ssl_md5 *e)
 	C += TC;
 	D += TD;
 }
-
 
 void				md5_washing(t_ssl_md5 *e)
 {
@@ -149,7 +148,7 @@ bool				md5_routine(t_ssl_wrap *w, t_ssl_file *f)
 		if (e.datalen == 64)
 		{
 			md5_washing(&e);
-			e.datalen;
+			e.datalen = 0;
 		}
 	}
 
