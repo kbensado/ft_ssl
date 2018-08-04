@@ -6,11 +6,12 @@
 /*   By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 16:49:20 by kbensado          #+#    #+#             */
-/*   Updated: 2018/06/10 17:19:27 by kbensado         ###   ########.fr       */
+/*   Updated: 2018/08/03 00:53:07 by kbensado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/ft_ssl.h"
+#include "../inc/md5.h"
 
 void				first_wash(t_ssl_md5 *e)
 {
@@ -22,7 +23,7 @@ void				first_wash(t_ssl_md5 *e)
 	FF(TD, TA, TB, TC, e->b_endian[5], 12,0x4787c62a); 
 	FF(TC, TD, TA, TB, e->b_endian[6], 17,0xa8304613); 
 	FF(TB, TC, TD, TA, e->b_endian[7], 22,0xfd469501); 
-	FF(TA, TB, TC, TD, e->b_endian[8], `7,0x698098d8); 
+	FF(TA, TB, TC, TD, e->b_endian[8], 7,0x698098d8); 
 	FF(TD, TA, TB, TC, e->b_endian[9], 12,0x8b44f7af); 
 	FF(TC, TD, TA, TB, e->b_endian[10], 17,0xffff5bb1); 
 	FF(TB ,TC, TD, TA, e->b_endian[11], 22,0x895cd7be); 
@@ -30,6 +31,7 @@ void				first_wash(t_ssl_md5 *e)
 	FF(TD, TA, TB, TC, e->b_endian[13], 12,0xfd987193); 
 	FF(TC, TD, TA, TB, e->b_endian[14], 17,0xa679438e); 
 	FF(TB ,TC ,TD ,TA, e->b_endian[15], 22,0x49b40821); 
+
 }
 
 void				second_wash(t_ssl_md5 *e)
@@ -60,7 +62,7 @@ void				third_wash(t_ssl_md5 *e)
 	HH(TB, TC, TD, TA, e->b_endian[14], 23,0xfde5380c); 
 	HH(TA, TB, TC, TD, e->b_endian[1], 4,0xa4beea44); 
 	HH(TD, TA, TB, TC, e->b_endian[4], 11,0x4bdecfa9); 
-	HH(TC, TD, TA, TB, e->b_endian[7], 16,0xf6b4b60); 
+	HH(TC, TD, TA, TB, e->b_endian[7], 16,0xf6bb4b60); 
 	HH(TB, TC, TD, TA, e->b_endian[10], 23,0xbebfbc70); 
 	HH(TA, TB, TC, TD, e->b_endian[13], 4,0x289b7ec6); 
 	HH(TD, TA, TB, TC, e->b_endian[0], 11,0xeaa127fa); 
@@ -89,7 +91,7 @@ void				final_wash(t_ssl_md5 *e)
 	II(TA, TB, TC, TD, e->b_endian[4], 6,0xf7537e82); 
 	II(TD, TA, TB, TC, e->b_endian[11],10,0xbd3af235); 
 	II(TC, TD, TA, TB, e->b_endian[2], 15,0x2ad7d2bb); 
-	II(TB, TC, TD, TA, e->b_endian[9], 21,0xeb86d391); 
+	II(TB, TC, TD, TA, e->b_endian[9], 21,0xeb86d391);
 }
 
 void				init_washing(t_ssl_md5 *e)
@@ -114,13 +116,13 @@ void				md5_washing(t_ssl_md5 *e)
 	int				j;
 
 	i = -1;
-	j = -1;
+	j = 0;
 	ft_bzero(e->tmp, sizeof(e->tmp));
 	ft_bzero(e->b_endian, sizeof(e->b_endian));
 	while (++i < 16)
 	{
-		e->b_endian[i] = (e->data[j]) + (e->data[j + 1] << 8) +
-		(e->data[j + 2] << 16) + (e->data[j + 3] << 24);
+		e->b_endian[i] = (e->buffer[j]) + (e->buffer[j + 1] << 8) +
+		(e->buffer[j + 2] << 16) + (e->buffer[j + 3] << 24);
 		j += 4;
 	}
 	init_washing(e);
@@ -128,10 +130,74 @@ void				md5_washing(t_ssl_md5 *e)
 
 static void			md5_init(t_ssl_md5 *e)
 {
-	e->state = 0x67452301;
-	e->state = 0xEFCDAB89;
-	e->state = 0x98BADCFE;
-	e->state = 0x10325476;
+	e->state[0] = 0x67452301;
+	e->state[1] = 0xEFCDAB89;
+	e->state[2] = 0x98BADCFE;
+	e->state[3] = 0x10325476;
+}
+
+void				md5_end_set(t_ssl_md5 *e)
+{
+	int i;
+
+	i = -1;
+	e->buffer[56] = e->bitlen[0];
+	e->buffer[57] = e->bitlen[0] >> 8;
+	e->buffer[58] = e->bitlen[0] >> 16;
+	e->buffer[59] = e->bitlen[0] >> 24;
+	e->buffer[60] = e->bitlen[1];
+	e->buffer[61] = e->bitlen[1] >> 8;
+	e->buffer[62] = e->bitlen[1] >> 16;
+	e->buffer[63] = e->bitlen[1] >> 24;
+	md5_washing(e);
+	while (++i < 4)
+	{
+		e->res[i] = (A >> (i*8)) & 0x000000ff; 
+		e->res[i + 4] = (B >> (i*8)) & 0x000000ff; 
+		e->res[i + 8] = (C >> (i*8)) & 0x000000ff; 
+		e->res[i +12] = (D >> (i*8)) & 0x000000ff;
+	}
+}
+
+void				md5_end(t_ssl_md5 *e)
+{
+	uint32_t		i;
+
+	i = e->datalen;
+	if (e->datalen < 56)
+	{
+		e->buffer[i++] = 0x80;
+		while (i < 56)
+			e->buffer[i++] = 0;
+	}
+	else if (e->datalen >= 56)
+	{
+		e->buffer[i++] = 0x80;
+		while (i < 64)
+			e->buffer[i++] = 0x80;
+		md5_washing(e);
+		memset(e->buffer, 0, 56);
+	}
+	DBL_INT_ADD(e->bitlen[0], e->bitlen[1], 8 * e->datalen);
+	md5_end_set(e);
+
+}
+
+static void			md5_print_res(t_ssl_wrap *w, t_ssl_file *f,
+					t_ssl_md5 *e)
+{
+	int				j;
+
+	j = -1;
+	if (FILE_M == true && REVERSE_M == false)
+		ft_printf("MD5 (%s) = ", f->name);
+	while (++j < 16)
+	{
+		ft_printf("%02x", (unsigned char)e->res[j]);
+	}
+	if (REVERSE_M == true)
+		ft_printf(" *%s", f->name);
+	WS("");
 }
 
 bool				md5_routine(t_ssl_wrap *w, t_ssl_file *f)
@@ -140,7 +206,8 @@ bool				md5_routine(t_ssl_wrap *w, t_ssl_file *f)
 	int				i;
 
 	i = -1;
-	ft_bzero(&e, sizeof(env));
+	ft_bzero(&e, sizeof(t_ssl_md5));
+	md5_init(&e);
 	while (++i < f->len)
 	{
 		e.buffer[e.datalen] = f->file[i];
@@ -148,11 +215,11 @@ bool				md5_routine(t_ssl_wrap *w, t_ssl_file *f)
 		if (e.datalen == 64)
 		{
 			md5_washing(&e);
+			DBL_INT_ADD(e.bitlen[0], e.bitlen[1], 512);
 			e.datalen = 0;
 		}
 	}
-
-
-
+	md5_end(&e);
+	md5_print_res(w, f, &e);
 	return (true);
 }

@@ -20,11 +20,13 @@
 # define PRINT_M w->flag[1]
 # define QUIET_M w->flag[2]
 # define STRING_M w->flag[3]
+# define FILE_M w->flag[4]
 # define USAGE "usage: ft_ssl command [command opts] [command args]"
 
 typedef struct	s_ssl_file
 {
 	char		*file;
+	char		*name;
 	long long	len;
 
 }				t_ssl_file;
@@ -35,7 +37,7 @@ typedef struct	s_ssl_wrap
 	char		*file;
 	char		*hash;
 	int			ret;
-	bool		flag[4];
+	bool		flag[5];
 
 }				t_ssl_wrap;
 
@@ -65,6 +67,7 @@ t_ssl_file		*file_wrap(t_ssl_wrap *w, t_ssl_file *f);
 */
 
 int				hash_md5(t_ssl_wrap *w, t_ssl_file *f);
+bool			md5_routine(t_ssl_wrap *w, t_ssl_file *f);
 int				hash_sha256(t_ssl_wrap *w, t_ssl_file *f);
 int				hash_sha512(t_ssl_wrap *w, t_ssl_file *f);
 int				hash_des(t_ssl_wrap *w, t_ssl_file *f);

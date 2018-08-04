@@ -49,13 +49,22 @@ void md5_transform(MD5_CTX *ctx, uchar data[])
    // endian byte order CPU. Reverse all the bytes upon input, and re-reverse them 
    // on output (in md5_final()). 
    for (i=0,j=0; i < 16; ++i, j += 4) 
+   {
+            printf("data traiter = %d %d %d %d\n", data[j], data[j + 1], data[j + 2], data[j + 3]);
       m[i] = (data[j]) + (data[j+1] << 8) + (data[j+2] << 16) + (data[j+3] << 24); 
+      printf("m[%d] = %d\n", i, m[i]);
+      
+   }
    
    a = ctx->state[0]; 
    b = ctx->state[1]; 
    c = ctx->state[2]; 
    d = ctx->state[3]; 
-   
+
+   printf("LES ETATS SONT BEFORE %d | %d | %d | %d\n", ctx->state[0], ctx->state[1],ctx->state[2],ctx->state[3]);
+
+
+   printf("DATALEN = %d\n", ctx->datalen);   
    FF(a,b,c,d,m[0],  7,0xd76aa478); 
    FF(d,a,b,c,m[1], 12,0xe8c7b756); 
    FF(c,d,a,b,m[2], 17,0x242070db); 
@@ -72,6 +81,9 @@ void md5_transform(MD5_CTX *ctx, uchar data[])
    FF(d,a,b,c,m[13],12,0xfd987193); 
    FF(c,d,a,b,m[14],17,0xa679438e); 
    FF(b,c,d,a,m[15],22,0x49b40821); 
+
+
+   printf("AFTER FIRST WASH %d | %d | %d | %d\n", a, b,c,d);
    
    GG(a,b,c,d,m[1],  5,0xf61e2562); 
    GG(d,a,b,c,m[6],  9,0xc040b340); 
@@ -89,8 +101,11 @@ void md5_transform(MD5_CTX *ctx, uchar data[])
    GG(d,a,b,c,m[2],  9,0xfcefa3f8); 
    GG(c,d,a,b,m[7], 14,0x676f02d9); 
    GG(b,c,d,a,m[12],20,0x8d2a4c8a);
+
+      printf("AFTER SECOND WASH %d | %d | %d | %d\n", a, b,c,d);
+
    
-   HH(a,b,c,d,m[5],  4,0xfffa3942); 
+   HH(a,b,c,d,m[5],  4,0xfffa3942);
    HH(d,a,b,c,m[8], 11,0x8771f681); 
    HH(c,d,a,b,m[11],16,0x6d9d6122); 
    HH(b,c,d,a,m[14],23,0xfde5380c); 
@@ -106,6 +121,9 @@ void md5_transform(MD5_CTX *ctx, uchar data[])
    HH(d,a,b,c,m[12],11,0xe6db99e5); 
    HH(c,d,a,b,m[15],16,0x1fa27cf8); 
    HH(b,c,d,a,m[2], 23,0xc4ac5665); 
+
+      printf("AFTER THIRD WASH %d | %d | %d | %d\n", a, b,c,d);
+
       
    II(a,b,c,d,m[0],  6,0xf4292244); 
    II(d,a,b,c,m[7], 10,0x432aff97); 
@@ -123,11 +141,16 @@ void md5_transform(MD5_CTX *ctx, uchar data[])
    II(d,a,b,c,m[11],10,0xbd3af235); 
    II(c,d,a,b,m[2], 15,0x2ad7d2bb); 
    II(b,c,d,a,m[9], 21,0xeb86d391); 
+
+      printf("AFTER FINAL WASH %d | %d | %d | %d\n", a, b,c,d);
+
    
    ctx->state[0] += a; /*Saving state*/
    ctx->state[1] += b; /*Saving state*/
    ctx->state[2] += c; /*Saving state*/
    ctx->state[3] += d; /*Saving state*/
+
+   printf("LES ETATS SONT AFTER %d | %d | %d | %d\n", ctx->state[0], ctx->state[1],ctx->state[2],ctx->state[3]);
 }  
 
 void md5_init(MD5_CTX *ctx) 
@@ -151,12 +174,13 @@ void md5_update(MD5_CTX *ctx, uchar data[], uint len)
 {  
    uint t,i;
    
+
    for (i=0; i < len; ++i) { 
       ctx->data[ctx->datalen] = data[i]; /*ctx->data[0] = 'a',ctx->data[0] = 'b', ctx->data[0] = 'c'*/
       ctx->datalen++; /*datalen = 3*/
       if (ctx->datalen == 64) { 
          md5_transform(ctx,ctx->data); 
-         DBL_INT_ADD(ctx->bitlen[0],ctx->bitlen[1],512); 
+         DBL_INT_ADD(ctx->bitlen[0],ctx->bitlen[1],512);
          ctx->datalen = 0; 
       }  
    }  
@@ -174,16 +198,17 @@ void md5_final(MD5_CTX *ctx, uchar hash[])
    
    // Pad whatever data is left in the buffer. 
    if (ctx->datalen < 56) { /* 56 bytes * 8 = 448 bits */
+      printf("datalen = %d\n", ctx->datalen);
       ctx->data[i++] = 0x80; /* ctx->data[3] = '1' */
       while (i < 56) 
          ctx->data[i++] = 0x00; /*rest all till ctx->data[56] = 0x00*/
    }  
    else if (ctx->datalen >= 56) { 
       ctx->data[i++] = 0x80; 
-      while (i < 64) 
-         ctx->data[i++] = 0x00; 
-      md5_transform(ctx,ctx->data); 
-      memset(ctx->data,0,56); 
+      while (i < 64)
+         ctx->data[i++] = 0x00;
+      md5_transform(ctx,ctx->data);
+      memset(ctx->data,0,56);
    }  
    
    // Append to the padding the total message's length in bits and transform. 
@@ -205,7 +230,7 @@ void md5_final(MD5_CTX *ctx, uchar hash[])
       hash[i]    = (ctx->state[0] >> (i*8)) & 0x000000ff; 
       hash[i+4]  = (ctx->state[1] >> (i*8)) & 0x000000ff; 
       hash[i+8]  = (ctx->state[2] >> (i*8)) & 0x000000ff; 
-      hash[i+12] = (ctx->state[3] >> (i*8)) & 0x000000ff; 
+      hash[i+12] = (ctx->state[3] >> (i*8)) & 0x000000ff;
    }  
 }  
 
@@ -230,19 +255,21 @@ int main(int ac, char **av)
 {  
    char hash[16];
 
-        char *in1 = "hello\n";
+        char *in1 = "kbensado\n";
         printf("%s\n",in1);
         // char *in2 =av[2]; 
         // char *in3_1 = av[3];
         // char *in3_2 = av[4]; 
+
+
    unsigned int len; 
    MD5_CTX ctx; 
-   
+
    // First hash 
-   md5_init(&ctx); 
-   md5_update(&ctx,in1,strlen(in1)); 
-   md5_final(&ctx,hash); 
-   print_hash(hash); 
+   md5_init(&ctx);
+   md5_update(&ctx,in1,strlen(in1));
+   md5_final(&ctx,hash);
+   print_hash(hash);
    
    // Second hash (note the MD5 object can be reused) 
    // md5_init(&ctx); 

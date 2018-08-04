@@ -40,6 +40,9 @@ t_ssl_file		*file_wrap(t_ssl_wrap *w, t_ssl_file *f)
 		w->av++;
 		return (f);
 	}
+	if (tmp.fd > -1)
+		FILE_M = true;
+	f->name = *w->av;
 	f->file = tmp.ptr;
 	f->len = tmp.file.st_size;
 	w->av++;

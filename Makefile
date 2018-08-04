@@ -6,13 +6,13 @@
 #    By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/21 02:48:50 by kbensado          #+#    #+#              #
-#    Updated: 2018/06/05 01:01:22 by kbensado         ###   ########.fr        #
+#    Updated: 2018/08/03 00:40:49 by kbensado         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC =			gcc
 
-CFLAG =			-Wall -Wextra -Werror -g #-Weverything -g 
+CFLAG =			 -g # -Wall -Wextra -Werror -g #-Weverything -g 
 
 FSANITIZE = 	-fsanitize=address
 
@@ -26,7 +26,7 @@ LIBFT_PATH =	./libft/
 
 INC_PATH_N =	./inc/
 
-SRC_NAME_N =	main.c error.c command.c hash.c file.c
+SRC_NAME_N =	main.c error.c command.c hash.c file.c md5.c
 
 OBJ_NAME_N =	$(SRC_NAME_N:.c=.o)
 
