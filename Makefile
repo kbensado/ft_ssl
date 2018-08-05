@@ -6,7 +6,7 @@
 #    By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/21 02:48:50 by kbensado          #+#    #+#              #
-#    Updated: 2018/08/03 00:40:49 by kbensado         ###   ########.fr        #
+#    Updated: 2018/08/05 02:52:36 by kbensado         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,13 +26,13 @@ LIBFT_PATH =	./libft/
 
 INC_PATH_N =	./inc/
 
-SRC_NAME_N =	main.c error.c command.c hash.c file.c md5.c
+SRC_NAME_N =	main.c error.c command.c hash.c file.c md5.c md5_1.c md5_2.c sha256_1.c sha256.c 
 
 OBJ_NAME_N =	$(SRC_NAME_N:.c=.o)
 
 LIBFT_NAME =	libft.a
 
-INC_NAME_N =	ft_ssl.h md5.h
+INC_NAME_N =	ft_ssl.h md5.h sha.h
 
 SRC_N =			$(addprefix $(SRC_PATH_N),$(SRC_NAME_N))
 

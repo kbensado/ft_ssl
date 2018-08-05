@@ -34,10 +34,12 @@ int			hash_sha256(t_ssl_wrap *w, t_ssl_file *f)
 {
 	if (f == NULL)
 		return (-1);
+	sha256_routine(w, f);
 	while (*w->av != NULL)
 	{
 		WS(*w->av);
 		w->av++;
+		sha256_routine(w, f);
 	}
 	return (1);
 }

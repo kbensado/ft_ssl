@@ -6,7 +6,7 @@
 /*   By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/03 18:04:07 by kbensado          #+#    #+#             */
-/*   Updated: 2018/06/05 03:41:43 by kbensado         ###   ########.fr       */
+/*   Updated: 2018/08/05 02:43:00 by kbensado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ t_ssl_file		*file_wrap(t_ssl_wrap *w, t_ssl_file *f);
 
 int				hash_md5(t_ssl_wrap *w, t_ssl_file *f);
 bool			md5_routine(t_ssl_wrap *w, t_ssl_file *f);
+bool			sha256_routine(t_ssl_wrap *w, t_ssl_file *f);
 int				hash_sha256(t_ssl_wrap *w, t_ssl_file *f);
 int				hash_sha512(t_ssl_wrap *w, t_ssl_file *f);
 int				hash_des(t_ssl_wrap *w, t_ssl_file *f);

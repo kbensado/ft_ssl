@@ -55,7 +55,18 @@ void sha256_transform(SHA256_CTX *ctx, const BYTE data[])
 	for (i = 0, j = 0; i < 16; ++i, j += 4)
 		m[i] = (data[j] << 24) | (data[j + 1] << 16) | (data[j + 2] << 8) | (data[j + 3]);
 	for ( ; i < 64; ++i)
+	{
+		// printf("MON PUTIN DE i = %d\n", i);
 		m[i] = SIG1(m[i - 2]) + m[i - 7] + SIG0(m[i - 15]) + m[i - 16];
+	}
+
+
+	i = 0;
+	while (i < 64)
+	{
+	printf("m[%d]%d\n", i, m[i]);
+			i++;
+	}
 
 	a = ctx->state[0];
 	b = ctx->state[1];
@@ -66,9 +77,13 @@ void sha256_transform(SHA256_CTX *ctx, const BYTE data[])
 	g = ctx->state[6];
 	h = ctx->state[7];
 
+
+	printf("etat = %d %d %d %d %d %d %d %d\n", a,b,c,d,e,f,g,h);
+
 	for (i = 0; i < 64; ++i) {
 		t1 = h + EP1(e) + CH(e,f,g) + k[i] + m[i];
 		t2 = EP0(a) + MAJ(a,b,c);
+		// printf("i = %d | tmp[0] = %d tmp[1] = %d\n",i, t1, t2);
 		h = g;
 		g = f;
 		f = e;
@@ -77,6 +92,8 @@ void sha256_transform(SHA256_CTX *ctx, const BYTE data[])
 		c = b;
 		b = a;
 		a = t1 + t2;
+
+		printf("i =%d | %d %d %d %d %d %d %d %d\n", i,a,b,c,d,e,f,g,h);
 	}
 
 	ctx->state[0] += a;
@@ -87,6 +104,14 @@ void sha256_transform(SHA256_CTX *ctx, const BYTE data[])
 	ctx->state[5] += f;
 	ctx->state[6] += g;
 	ctx->state[7] += h;
+
+	// i = 0;
+
+	// while (i < 64)
+	// {
+	// 	printf("tmp[%d] =%d\n", i,m[i]);
+	// 	i++;
+	// }
 }
 
 void sha256_init(SHA256_CTX *ctx)
@@ -150,6 +175,8 @@ void sha256_final(SHA256_CTX *ctx, BYTE hash[])
 	ctx->data[56] = ctx->bitlen >> 56;
 	sha256_transform(ctx, ctx->data);
 
+	printf("%d %d %d %d %d %d %d %d\n", ctx->state[0], ctx->state[1],ctx->state[2],ctx->state[3],ctx->state[4],ctx->state[5],ctx->state[6],ctx->state[7]);
+
 	// Since this implementation uses little endian byte ordering and SHA uses big endian,
 	// reverse all the bytes when copying the final state to the output hash.
 	for (i = 0; i < 4; ++i) {
@@ -167,7 +194,7 @@ void sha256_final(SHA256_CTX *ctx, BYTE hash[])
 int main()
 {
 
-	BYTE text1[] = {"kbensado\n"};
+	BYTE text1[] = {"kbensadokbensadokbensadokbensadokbensadokbensadokbensadokbensadokbensadokbensadokbensadokbensadokbensadokbensadokbensadokbensadokbensado\n"};
 	// BYTE text2[] = {"abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq"};
 	// BYTE text3[] = {"aaaaaaaaaa"};
 	BYTE hash1[SHA256_BLOCK_SIZE] = {0xba,0x78,0x16,0xbf,0x8f,0x01,0xcf,0xea,0x41,0x41,0x40,0xde,0x5d,0xae,0x22,0x23,
