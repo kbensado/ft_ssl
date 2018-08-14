@@ -6,7 +6,7 @@
 /*   By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/03 18:04:07 by kbensado          #+#    #+#             */
-/*   Updated: 2018/08/05 02:43:00 by kbensado         ###   ########.fr       */
+/*   Updated: 2018/08/09 20:52:04 by kbensado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # define QUIET_M w->flag[2]
 # define STRING_M w->flag[3]
 # define FILE_M w->flag[4]
+# define STDIN_M w->flag[5]
 # define USAGE "usage: ft_ssl command [command opts] [command args]"
 
 typedef struct	s_ssl_file
@@ -37,7 +38,7 @@ typedef struct	s_ssl_wrap
 	char		*file;
 	char		*hash;
 	int			ret;
-	bool		flag[5];
+	bool		flag[6];
 
 }				t_ssl_wrap;
 

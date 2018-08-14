@@ -6,7 +6,7 @@
 /*   By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 16:49:20 by kbensado          #+#    #+#             */
-/*   Updated: 2018/08/05 02:55:51 by kbensado         ###   ########.fr       */
+/*   Updated: 2018/08/14 11:10:04 by kbensado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,39 @@ static void			md5_print_res(t_ssl_wrap *w, t_ssl_file *f,
 	int				j;
 
 	j = -1;
+	if (QUIET_M == true && PRINT_M == false)
+	{
+		while (++j < 16)
+			ft_printf("%02x", (unsigned char)e->res[j]);
+		WS("");
+		return ;
+	}
+	if (STRING_M == true && PRINT_M == false)
+	{
+		if (REVERSE_M == true)
+			STRING_M = false;		
+		else
+		{
+			ft_printf("MD5 (\"%s\") = ", f->file);
+			STRING_M = false;		
+		}
+	}
+	if (PRINT_M == true)
+	{
+		WS(f->file);
+	}
 	if (FILE_M == true && REVERSE_M == false)
 		ft_printf("MD5 (%s) = ", f->name);
 	while (++j < 16)
-	{
 		ft_printf("%02x", (unsigned char)e->res[j]);
-	}
-	if (REVERSE_M == true)
+	if (REVERSE_M == true && f->name != NULL)
 		ft_printf(" *%s", f->name);
+	else
+	{
+		if (PRINT_M != true)
+			ft_printf(" \"%s\"", f->file);
+	}
+	PRINT_M = false;
 	WS("");
 }
 

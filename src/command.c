@@ -6,7 +6,7 @@
 /*   By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/03 18:26:04 by kbensado          #+#    #+#             */
-/*   Updated: 2018/06/05 05:14:21 by kbensado         ###   ########.fr       */
+/*   Updated: 2018/08/14 09:41:19 by kbensado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ char			*get_stdin(t_ssl_wrap *w)
 			res = ft_strjoin_fs1(res, buffer);
 		ft_bzero(&buffer, BUFF_SIZE + 1);
 	}
-	ft_printf("out of get_stdin = '%s'\n", res);
 	return (res);
 }
 
@@ -123,11 +122,12 @@ int				cmd_wrapper(t_ssl_wrap *w)
 		return (-1);
 	w->hash = ft_strdup(g_target[t]);
 	get_flag(w);
-	if (PRINT_M)
-		g_func_ptr[t](w, file_wrap(w, &f));	
-	while (*w->av != NULL)
+	if (*w->av == NULL)
 	{
-		g_func_ptr[t](w, file_wrap(w, &f));
+		STDIN_M = true;
+		g_func_ptr[t](w, file_wrap(w, &f));	
 	}
+	while (*w->av != NULL)
+		g_func_ptr[t](w, file_wrap(w, &f));
 	return (1);
 }

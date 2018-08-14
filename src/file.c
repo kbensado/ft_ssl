@@ -6,7 +6,7 @@
 /*   By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/04 22:39:34 by kbensado          #+#    #+#             */
-/*   Updated: 2018/06/05 05:12:35 by kbensado         ###   ########.fr       */
+/*   Updated: 2018/08/14 10:59:03 by kbensado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ t_ssl_file		*file_wrap(t_ssl_wrap *w, t_ssl_file *f)
 {
 	t_file		tmp;
 
-	if (PRINT_M)
+	if (STDIN_M || PRINT_M)
 	{
 		f->file = get_stdin(w);
 		f->len = (long long)ft_strlen(f->file);
-		PRINT_M = false;
+		STDIN_M = false;
 		return (f);
 	}
 	if (STRING_M)
@@ -28,7 +28,6 @@ t_ssl_file		*file_wrap(t_ssl_wrap *w, t_ssl_file *f)
 		f->file = ft_strdup(*w->av);
 		f->len = (long long)ft_strlen(*w->av);
 		w->av++;
-		STRING_M = false;
 		return (f);
 	}
 	tmp = get_file(*w->av);
@@ -36,7 +35,7 @@ t_ssl_file		*file_wrap(t_ssl_wrap *w, t_ssl_file *f)
 	{
 		ft_printf("ft_ssl :%s: '%s' ", w->hash, *w->av);
 		perror("");
-		f = NULL;
+		f->len = 0;
 		w->av++;
 		return (f);
 	}

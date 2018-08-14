@@ -6,7 +6,7 @@
 /*   By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/03 20:39:21 by kbensado          #+#    #+#             */
-/*   Updated: 2018/06/06 16:48:59 by kbensado         ###   ########.fr       */
+/*   Updated: 2018/08/14 10:59:34 by kbensado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int			hash_md5(t_ssl_wrap *w, t_ssl_file *f)
 	while (*w->av != NULL)
 	{
 		file_wrap(w, f);
-		md5_routine(w, f);
+		if (f->len != 0)
+			md5_routine(w, f);
 	}
 	munmap(f->file, f->len);
 	STRING_M = false;
