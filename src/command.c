@@ -6,7 +6,7 @@
 /*   By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/03 18:26:04 by kbensado          #+#    #+#             */
-/*   Updated: 2018/08/14 09:41:19 by kbensado         ###   ########.fr       */
+/*   Updated: 2018/08/14 11:29:13 by kbensado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int				cmd_wrapper(t_ssl_wrap *w)
 	if (*w->av == NULL)
 	{
 		STDIN_M = true;
-		g_func_ptr[t](w, file_wrap(w, &f));	
+		g_func_ptr[t](w, file_wrap(w, &f));
 	}
 	while (*w->av != NULL)
 		g_func_ptr[t](w, file_wrap(w, &f));

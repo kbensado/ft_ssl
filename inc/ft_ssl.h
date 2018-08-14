@@ -6,7 +6,7 @@
 /*   By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/03 18:04:07 by kbensado          #+#    #+#             */
-/*   Updated: 2018/08/09 20:52:04 by kbensado         ###   ########.fr       */
+/*   Updated: 2018/08/14 11:39:47 by kbensado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct	s_ssl_wrap
 	char		**av;
 	char		*file;
 	char		*hash;
+	char		hash_vers[16];
 	int			ret;
 	bool		flag[6];
 
@@ -62,6 +63,7 @@ int				is_cmd(t_ssl_wrap *w);
 */
 
 t_ssl_file		*file_wrap(t_ssl_wrap *w, t_ssl_file *f);
+void			print_res_routine(t_ssl_wrap *w, t_ssl_file *f);
 
 /*
 ** hash.c
@@ -80,5 +82,6 @@ int				hash_whirlpool(t_ssl_wrap *w, t_ssl_file *f);
 */
 
 int				ft_usage(char *str);
+void			error_fd_handle(t_ssl_wrap *w, t_ssl_file *f);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: kbensado <kbensado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 00:06:54 by kbensado          #+#    #+#             */
-/*   Updated: 2018/08/14 11:11:22 by kbensado         ###   ########.fr       */
+/*   Updated: 2018/08/14 11:42:44 by kbensado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,32 +90,20 @@ static void			sha256_print_res(t_ssl_wrap *w, t_ssl_file *f,
 	j = -1;
 	if (QUIET_M == true && PRINT_M == false)
 	{
-		while (++j < 16)
+		while (++j < 32)
 			ft_printf("%02x", (unsigned char)e->res[j]);
 		WS("");
 		return ;
 	}
-	if (STRING_M == true && PRINT_M == false)
-	{
-		if (REVERSE_M == true)
-			STRING_M = false;		
-		else
-		{
-			ft_printf("SHA256 (\"%s\") = ", f->file);
-			STRING_M = false;		
-		}
-	}
-	if (PRINT_M == true)
-	{
-		WS(f->file);
-	}
+	ft_strcpy(w->hash_vers, "SHA256");
+	print_res_routine(w, f);
 	if (FILE_M == true && REVERSE_M == false)
-		ft_printf("SHA256 (%s) = ", f->name);
-	while (++j < 16)
+		ft_printf("%s (%s) = ", w->hash_vers, f->name);
+	while (++j < 32)
 		ft_printf("%02x", (unsigned char)e->res[j]);
 	if (REVERSE_M == true && f->name != NULL)
 		ft_printf(" *%s", f->name);
-	else
+	else if (REVERSE_M == true && f->name == NULL)
 	{
 		if (PRINT_M != true)
 			ft_printf(" \"%s\"", f->file);
